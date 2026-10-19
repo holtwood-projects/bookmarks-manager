@@ -6,7 +6,7 @@
 
 A pure front-end, local-first cross-browser bookmark merging and smart cleanup tool. No registration, no backend service; data never leaves the browser.
 
-[Use Online](https://build-workbench.github.io/bookmarks-manager/) · [GitHub Repository](https://github.com/build-workbench/bookmarks-manager) · [Report an Issue](https://github.com/build-workbench/bookmarks-manager/issues)
+[Use Online](https://holtwood-projects.github.io/bookmarks-manager/) · [GitHub Repository](https://github.com/holtwood-projects/bookmarks-manager) · [Report an Issue](https://github.com/holtwood-projects/bookmarks-manager/issues)
 
 ---
 
@@ -43,7 +43,7 @@ Export a standard HTML bookmarks file from your browser:
 
 ### 2. Import and Organize
 
-1. Open [Bookmarks Manager](https://build-workbench.github.io/bookmarks-manager/), and drag in one or more bookmark HTML files (supports merging bookmarks from multiple browsers).
+1. Open [Bookmarks Manager](https://holtwood-projects.github.io/bookmarks-manager/), and drag in one or more bookmark HTML files (supports merging bookmarks from multiple browsers).
 2. On the **Deduplicate** page, review exact duplicates and similar bookmarks, and remove redundant items with one click.
 3. Search bookmarks on the **Search** page, or view domain and category statistics charts on the **Dashboard**.
 
@@ -58,7 +58,7 @@ Export a standard HTML bookmarks file from your browser:
 ## Local Development
 
 ```bash
-git clone https://github.com/build-workbench/bookmarks-manager.git
+git clone https://github.com/holtwood-projects/bookmarks-manager.git
 cd bookmarks-manager
 npm install
 npm run dev
@@ -86,7 +86,7 @@ npm run build      # 生产构建
 
 纯前端、本地优先的跨浏览器书签合并与智能清理工具。无需注册、无后端服务，数据不离开浏览器。
 
-[在线使用](https://build-workbench.github.io/bookmarks-manager/) · [GitHub 仓库](https://github.com/build-workbench/bookmarks-manager) · [报告问题](https://github.com/build-workbench/bookmarks-manager/issues)
+[在线使用](https://holtwood-projects.github.io/bookmarks-manager/) · [GitHub 仓库](https://github.com/holtwood-projects/bookmarks-manager) · [报告问题](https://github.com/holtwood-projects/bookmarks-manager/issues)
 
 ---
 
@@ -123,7 +123,7 @@ npm run build      # 生产构建
 
 ### 2. 导入与整理
 
-1. 打开 [Bookmarks Manager](https://build-workbench.github.io/bookmarks-manager/)，拖入一个或多个书签 HTML 文件（支持多浏览器书签合并）。
+1. 打开 [Bookmarks Manager](https://holtwood-projects.github.io/bookmarks-manager/)，拖入一个或多个书签 HTML 文件（支持多浏览器书签合并）。
 2. 在 **去重** 页面查看精确重复与相似书签，一键剔除冗余项。
 3. 在 **搜索** 页面检索书签，或在 **仪表盘** 查看域名与分类统计图表。
 
@@ -138,7 +138,7 @@ npm run build      # 生产构建
 ## 本地开发
 
 ```bash
-git clone https://github.com/build-workbench/bookmarks-manager.git
+git clone https://github.com/holtwood-projects/bookmarks-manager.git
 cd bookmarks-manager
 npm install
 npm run dev
