@@ -4,15 +4,15 @@
   "version": "1.1.0",
   "type": "module",
   "description": "Local-first PWA for merging, deduplicating and analyzing browser bookmarks",
-  "author": "build-workbench",
+  "author": "holtwood-projects",
   "license": "MIT",
-  "homepage": "https://github.com/build-workbench/bookmarks-manager#readme",
+  "homepage": "https://github.com/holtwood-projects/bookmarks-manager#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/build-workbench/bookmarks-manager.git"
+    "url": "https://github.com/holtwood-projects/bookmarks-manager.git"
   },
   "bugs": {
-    "url": "https://github.com/build-workbench/bookmarks-manager/issues"
+    "url": "https://github.com/holtwood-projects/bookmarks-manager/issues"
   },
   "engines": {
     "node": ">=20.0.0",
