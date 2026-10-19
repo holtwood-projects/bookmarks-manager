@@ -91,7 +91,7 @@ export default function FAQ() {
         <div className="mt-12 text-center">
           <p className="text-muted mb-4">{t('faq.more')}</p>
           <a
-            href="https://github.com/build-workbench/bookmarks-manager/issues"
+            href="https://github.com/holtwood-projects/bookmarks-manager/issues"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-sky-400 hover:text-sky-300 transition-colors"

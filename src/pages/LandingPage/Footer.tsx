@@ -22,17 +22,17 @@ const footerLinks: Record<string, { labelKey: string; links: FooterLink[] }> = {
     links: [
       {
         labelKey: 'footer.links.github',
-        href: 'https://github.com/build-workbench/bookmarks-manager',
+        href: 'https://github.com/holtwood-projects/bookmarks-manager',
         external: true
       },
       {
         labelKey: 'footer.links.demo',
-        href: 'https://github.com/build-workbench/bookmarks-manager',
+        href: 'https://github.com/holtwood-projects/bookmarks-manager',
         external: true
       },
       {
         labelKey: 'footer.links.feedback',
-        href: 'https://github.com/build-workbench/bookmarks-manager/issues',
+        href: 'https://github.com/holtwood-projects/bookmarks-manager/issues',
         external: true
       }
     ]
@@ -42,12 +42,12 @@ const footerLinks: Record<string, { labelKey: string; links: FooterLink[] }> = {
     links: [
       {
         labelKey: 'footer.links.mitLicense',
-        href: 'https://github.com/build-workbench/bookmarks-manager/blob/main/LICENSE',
+        href: 'https://github.com/holtwood-projects/bookmarks-manager/blob/main/LICENSE',
         external: true
       },
       {
         labelKey: 'footer.links.documentation',
-        href: 'https://github.com/build-workbench/bookmarks-manager#readme',
+        href: 'https://github.com/holtwood-projects/bookmarks-manager#readme',
         external: true
       }
     ]
@@ -98,7 +98,7 @@ export default function Footer() {
               <p className="text-sm text-muted mb-4">{t('footer.brand.description')}</p>
               <div className="flex items-center gap-4">
                 <a
-                  href="https://github.com/build-workbench/bookmarks-manager"
+                  href="https://github.com/holtwood-projects/bookmarks-manager"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted hover:text-foreground transition-colors"
@@ -157,12 +157,12 @@ export default function Footer() {
               <Heart className="w-4 h-4 text-rose-500 fill-rose-500" />
               <span>by</span>
               <a
-                href="https://github.com/build-workbench"
+                href="https://github.com/holtwood-projects"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted hover:text-foreground transition-colors"
               >
-                build-workbench
+                holtwood-projects
               </a>
             </div>
             <div>© {new Date().getFullYear()} Bookmarks Manager. MIT License.</div>
