@@ -24,6 +24,8 @@ export default {
   'common.yes': 'Yes',
   'common.no': 'No',
   'common.unknownError': 'Unknown error',
+  'common.undo': 'Undo',
+  'common.close': 'Close',
 
   // Upload & Merge Page
   'upload.title': 'Upload & Merge',
@@ -42,21 +44,21 @@ export default {
   'upload.noRawItems': 'No active import session',
   'upload.mergedItemsLabel': 'Deduplicated bookmarks',
   'upload.restoredLabel': 'Restored from previous merge',
-  'upload.duplicatesLabel': 'Detected duplicate clusters',
+  'upload.duplicatesLabel': 'Exact duplicate groups detected',
   'upload.duplicatesUnavailable': 'Available after full merge',
 
   // Dashboard Page
   'dashboard.title': 'Dashboard',
   'dashboard.deduplicated': 'Deduplicated',
-  'dashboard.duplicates': 'Duplicates',
+  'dashboard.duplicates': 'Exact duplicates',
   'dashboard.needsMerge': 'Current import session has changed, dashboard statistics are outdated',
   'dashboard.needsMergeHint': 'Please go to "Upload & Merge" to re-run merge and dedupe',
   'dashboard.restoredWarning':
     'Currently showing merged snapshot restored from local database. Basic stats are available, but duplicate cluster info may not represent the full results of the last import session.',
   'dashboard.totalBookmarks': 'Total Bookmarks',
-  'dashboard.duplicateCount': 'Duplicates',
+  'dashboard.duplicateCount': 'Exact duplicates',
   'dashboard.domainCount': 'Domains',
-  'dashboard.duplicateRatio': 'Duplicate Ratio',
+  'dashboard.duplicateRatio': 'Exact Duplicate Ratio',
   'dashboard.topDomains': 'Top 10 Domains',
   'dashboard.byYear': 'Added by Year',
   'dashboard.byCategory': 'Category Distribution',
@@ -150,7 +152,7 @@ export default {
     'One-click import from Chrome, Firefox, Edge, Safari bookmark files. Automatically identifies and merges duplicate folder structures.',
   'features.smartDedup.title': 'Smart Deduplication',
   'features.smartDedup.desc':
-    'URL normalization algorithm intelligently identifies duplicate bookmarks, handles http/https, tracking parameters, case differences, and keeps the earliest version.',
+    'URL normalization collapses exact duplicates while keeping the earliest copy. Similar titles are review candidates only, never auto-deleted.',
   'features.search.title': 'Full-Text Search',
   'features.search.desc':
     'High-performance search engine based on MiniSearch, supports title, URL, folder path full-text search with fuzzy matching, millisecond response.',
@@ -184,9 +186,9 @@ export default {
   'howItWorks.step1.feature3': 'Drag and drop',
   'howItWorks.step2.title': 'Merge & Dedupe',
   'howItWorks.step2.desc':
-    'System automatically merges duplicate folders, removes duplicate bookmarks, and provides stable statistics view, search, and duplicate browsing.',
+    'System merges duplicate folders and handles exact duplicates. Similar titles wait for your confirmation, and every removal can be undone.',
   'howItWorks.step2.description':
-    'System automatically merges duplicate folders, removes duplicate bookmarks, and provides stable statistics view, search, and duplicate browsing.',
+    'System merges duplicate folders and handles exact duplicates. Similar titles wait for your confirmation, and every removal can be undone.',
   'howItWorks.step2.f1': 'Auto dedupe',
   'howItWorks.step2.feature1': 'Auto dedupe',
   'howItWorks.step2.f2': 'Duplicate overview',
@@ -224,7 +226,7 @@ export default {
     'Currently only optional AI configuration and connection testing capabilities are retained. You can provide your own OpenAI or Claude API key, configuration is saved locally in the browser only. The tool does not manage keys or upload your bookmarks to any service.',
   'faq.q4': 'How does the deduplication algorithm work?',
   'faq.a4':
-    'We use intelligent URL normalization algorithm. Before processing, URLs are standardized: unified protocol (http/https), lowercase hostname, removal of tracking parameters (like utm_source), sorting query parameters, etc. This identifies bookmarks pointing to the same page despite format differences.',
+    'URLs are normalized before comparison: protocol, hostname casing, tracking parameters, trailing slashes, and query order are unified. Exact normalized URLs are collapsed automatically while keeping the earliest copy. Bookmarks with similar titles on the same domain are only listed for review, never deleted automatically.',
   'faq.q5': 'Can organized bookmarks be imported back to browsers?',
   'faq.a5':
     'Of course. We export standard bookmark HTML format that can be imported in any browser\'s bookmark manager. Just click the "Export" button to generate the organized HTML file, then select "Import Bookmarks" in your target browser.',
@@ -303,6 +305,9 @@ export default {
   'search.loadMore': 'Load more ({count} items)',
   'search.exportedAs': 'Exported as {format} format',
   'search.clear': 'Clear search',
+  'search.delete': 'Delete this bookmark',
+  'search.deleteConfirm': 'Delete "{title}"? You can undo from the top of the page.',
+  'search.deleteFailed': 'Delete failed, please try again',
 
   // Backup Page - Extended
   'backup.pageTitle': 'Data Backup & Restore',
@@ -337,6 +342,32 @@ export default {
   'duplicates.noDuplicatesHint': 'Please run merge & dedupe in "Upload & Merge" first',
   'duplicates.cluster': 'Cluster #{index} ({count} copies)',
   'duplicates.keep': 'Keep',
+  'duplicates.reviewTitle': 'Deduplication Review',
+  'duplicates.reviewHint': 'Exact duplicates keep one copy by default; similar titles are suggestions only and are never deleted automatically. Every removal can be undone.',
+  'duplicates.exactCount': '{groups} exact group(s) · {items} removable',
+  'duplicates.similarCount': '{groups} similar group(s) · {items} to review',
+  'duplicates.exactTitle': 'Exact duplicates',
+  'duplicates.exactHint': 'These share a normalized URL. The earliest bookmark is kept by default; you can switch the kept copy or restore the whole group.',
+  'duplicates.similarTitle': 'Possible duplicates (similar titles)',
+  'duplicates.similarHint': 'Same domain with highly similar titles but different URLs. Nothing is deleted automatically; review and remove only what you confirm.',
+  'duplicates.similarGroup': 'Similar group #{index}',
+  'duplicates.similarScore': 'Similarity {score}%',
+  'duplicates.setKeep': 'Keep this one',
+  'duplicates.restoreGroup': 'Restore group',
+  'duplicates.restoredGroup': 'Restored {count} duplicate bookmarks',
+  'duplicates.swappedKeep': 'Kept copy switched',
+  'duplicates.removedCount': 'Deleted {count} bookmark(s)',
+  'duplicates.similarRemoved': 'Deleted {count} possible duplicate(s)',
+  'duplicates.similarDismissed': 'Ignored one possible duplicate group',
+  'duplicates.dismissGroup': 'Keep all',
+  'duplicates.selectAll': 'Select all',
+  'duplicates.clearSelection': 'Clear selection',
+  'duplicates.deleteSelected': 'Delete selected ({count})',
+  'duplicates.deleteConfirm': 'Delete the selected {count} bookmark(s)? You can undo from the top of the page.',
+  'duplicates.noExact': 'No exact URL duplicates',
+  'duplicates.noSimilar': 'No similar titles need review',
+  'duplicates.actionFailed': 'Action failed: {error}',
+
 
   // Upload & Merge Page - Extended
   'upload.selectFiles': 'Select exported bookmark HTML files, multiple supported',
@@ -345,20 +376,22 @@ export default {
   'upload.bookmarkCountShort': '{count} bookmarks',
   'upload.remove': 'Remove',
   'upload.restoredHint':
-    'Restored previous merge result from local database, {count} bookmarks. Original import files and duplicate cluster info not preserved; re-import and merge to re-organize.',
+    'Restored the previous merge result from the local database ({count} bookmarks). Importing another file adds to this library instead of replacing it.',
   'upload.needsMergeWarning':
     'Current import session has changed. Old merge results, search index, and duplicate clusters are outdated. Click "Merge & Dedupe" to regenerate.',
   'upload.rawItems': 'Raw items',
   'upload.mergedItems': 'Merged',
-  'upload.duplicateItems': 'Duplicates',
+  'upload.duplicateItems': 'Exact duplicates',
   'upload.mergeButton': 'Merge & Dedupe',
   'upload.exportButton': 'Export {format}',
   'upload.clearButton': 'Clear',
+  'upload.clearConfirm': 'Clear all bookmarks from the local database? This cannot be undone.',
   'upload.invalidFiles':
     'No valid HTML bookmark files detected. Ensure files have .html or .htm extension',
   'upload.rejectedFiles': '({names}{more} format not supported)',
-  'upload.importSuccess': 'Successfully imported {count} file(s)',
-  'upload.importPartialSuccess': 'Imported {accepted} file(s) (skipped {rejected} non-HTML files)',
+  'upload.importSuccess': 'Imported {count} file(s) with {bookmarks} bookmarks',
+  'upload.importPartialSuccess': 'Imported {accepted} file(s), skipped {rejected} non-HTML file(s), {bookmarks} bookmarks total',
+  'upload.noBookmarksFound': 'No bookmarks were parsed from the file. Make sure it is a browser bookmark HTML export.',
 
   // AI Page - Extended
   'ai.pageTitle': 'Optional AI Config',
@@ -372,7 +405,7 @@ export default {
   'error.refreshPage': 'Refresh page',
 
   // Dashboard - Extended
-  'dashboard.chart.pieDescription': 'Deduplicated: {total}, Duplicates: {duplicates}',
+  'dashboard.chart.pieDescription': 'Deduplicated: {total}, exact duplicates: {duplicates}',
   'dashboard.chart.barDescription': 'Top 10 domains: {domains}',
   'dashboard.chart.lineDescription': 'Added by year: {years}',
   'dashboard.folderLabel': 'Folder: {path}',

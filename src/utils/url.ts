@@ -31,6 +31,16 @@ export function normalizeUrl(u: string): string {
   }
 }
 
+
+/**
+ * Key used for exact duplicate detection. HTTP and HTTPS are treated as the
+ * same resource while the original URL is preserved for export.
+ */
+export function dedupeUrlKey(u: string): string {
+  const normalized = normalizeUrl(u)
+  return normalized.startsWith('http://') ? `https://${normalized.slice(7)}` : normalized
+}
+
 export function getHostname(u: string): string {
   try {
     return new URL(u).hostname.toLowerCase()

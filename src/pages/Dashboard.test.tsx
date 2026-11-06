@@ -39,7 +39,7 @@ describe('Dashboard', () => {
 
     expect(screen.getByText('书签总量')).toBeInTheDocument()
     expect(screen.getByText('100')).toBeInTheDocument()
-    expect(screen.getByText('重复数量')).toBeInTheDocument()
+    expect(screen.getByText('完全重复数量')).toBeInTheDocument()
     expect(screen.getByText('20')).toBeInTheDocument()
     expect(screen.getByText('域名数')).toBeInTheDocument()
   })

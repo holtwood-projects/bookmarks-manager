@@ -106,7 +106,7 @@ export default function Backup() {
             })
           })
           // Reload bookmarks
-          await loadFromDB()
+          await loadFromDB(true)
         } else {
           setMessage({
             type: 'error',

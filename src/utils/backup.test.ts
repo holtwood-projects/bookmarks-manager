@@ -67,4 +67,20 @@ describe('backup after closure hardening', () => {
     expect('aiPromptsRestored' in result.stats).toBe(false)
     expect('cleanupSessionsRestored' in result.stats).toBe(false)
   })
+
+  it('rolls back a failed replace restore instead of losing existing data', async () => {
+    await saveBookmarks(sampleBookmarks)
+
+    const result = await restoreFromBackup(
+      {
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        bookmarks: [sampleBookmarks[0], sampleBookmarks[0]]
+      },
+      'replace'
+    )
+
+    expect(result.success).toBe(false)
+    expect(await db.bookmarks.count()).toBe(1)
+  })
 })

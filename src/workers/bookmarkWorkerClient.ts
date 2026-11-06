@@ -4,11 +4,13 @@
  */
 
 import type { Bookmark } from '@/utils/bookmarkParser'
+import type { SimilarGroup } from '@/utils/bookmarkProcessing'
 import type { WorkerMessage, WorkerResponse } from './bookmarkWorker'
 
 export interface MergeDedupResult {
   merged: Bookmark[]
   duplicates: Record<string, Bookmark[]>
+  similarGroups: SimilarGroup[]
   stats: {
     total: number
     duplicates: number
@@ -54,6 +56,7 @@ export class BookmarkWorkerClient {
       this.activeMerge.resolve({
         merged: data.payload.merged,
         duplicates: data.payload.groups,
+        similarGroups: data.payload.similarGroups,
         stats: {
           total: data.payload.total,
           duplicates: data.payload.duplicates,

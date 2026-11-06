@@ -6,7 +6,8 @@ import {
   Filter,
   Download,
   AlertCircle,
-  CheckCircle
+  CheckCircle,
+  Trash2
 } from 'lucide-react'
 import { t } from '@/locales'
 import useBookmarksStore from '@/store/useBookmarksStore'
@@ -25,7 +26,7 @@ import { EXPORT_FORMAT_OPTIONS } from '@/utils/exporters/formats'
 import { downloadFile } from '@/utils/download'
 
 export default function Search() {
-  const { search, mergedItems, needsMerge } = useBookmarksStore()
+  const { search, deleteBookmarks, mergedItems, needsMerge } = useBookmarksStore()
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<SearchResultItem[]>([])
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -149,27 +150,27 @@ export default function Search() {
 
   function handleSearch(q: string) {
     setQuery(q)
+  }
 
+  useEffect(() => {
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current)
     }
 
     searchTimeoutRef.current = setTimeout(() => {
-      if (q.trim()) {
-        setResults(search(q.trim()))
+      if (query.trim()) {
+        setResults(search(query.trim()))
       } else {
         setResults([])
       }
     }, 200)
-  }
 
-  useEffect(() => {
     return () => {
       if (searchTimeoutRef.current) {
         clearTimeout(searchTimeoutRef.current)
       }
     }
-  }, [])
+  }, [mergedItems, query, search])
 
   function resetFilters() {
     setDomain('')
@@ -177,6 +178,20 @@ export default function Search() {
     setFolderKeyword('')
     setDateStart('')
     setDateEnd('')
+  }
+
+  async function deleteBookmark(item: Bookmark) {
+    const title = item.title || item.url
+    if (!confirm(t('search.deleteConfirm', { title }))) return
+
+    try {
+      await deleteBookmarks([item.id])
+      if (query.trim()) {
+        setResults(search(query.trim()))
+      }
+    } catch {
+      setMessage({ type: 'error', text: t('search.deleteFailed') })
+    }
   }
 
   function onExport() {
@@ -480,6 +495,15 @@ export default function Search() {
                         </div>
                       )}
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => void deleteBookmark(item)}
+                      className="p-2 rounded-lg text-muted hover:text-rose-500 hover:bg-rose-500/10 transition-colors flex-shrink-0"
+                      aria-label={t('search.delete')}
+                      title={t('search.delete')}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
               )}
@@ -513,6 +537,15 @@ export default function Search() {
                         </div>
                       )}
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => void deleteBookmark(item)}
+                      className="p-2 rounded-lg text-muted hover:text-rose-500 hover:bg-rose-500/10 transition-colors flex-shrink-0"
+                      aria-label={t('search.delete')}
+                      title={t('search.delete')}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
               ))}

@@ -10,7 +10,6 @@ import { t } from '@/locales'
 export default function UploadMerge() {
   const {
     rawItems,
-    restoredItems,
     mergedItems,
     duplicates,
     importing,
@@ -27,7 +26,7 @@ export default function UploadMerge() {
   } = useBookmarksStore()
 
   const readyToExport = mergedItems.length > 0 && !needsMerge
-  const hasRestoredSnapshot = restoredItems.length > 0 && rawItems.length === 0 && !hasFullMergeData
+  const hasRestoredSnapshot = mergedItems.length > 0 && rawItems.length === 0 && !hasFullMergeData
   const busy = importing || merging || loading || Boolean(stage)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [dragActive, setDragActive] = useState(false)
@@ -81,14 +80,15 @@ export default function UploadMerge() {
 
     setMessage(null)
     try {
-      await importFiles(accepted)
+      const importedCount = await importFiles(accepted)
       const successMsg =
         rejected.length > 0
           ? t('upload.importPartialSuccess', {
               accepted: accepted.length,
-              rejected: rejected.length
+              rejected: rejected.length,
+              bookmarks: importedCount
             })
-          : t('upload.importSuccess', { count: accepted.length })
+          : t('upload.importSuccess', { count: accepted.length, bookmarks: importedCount })
       setMessage({ type: 'success', text: successMsg })
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : t('common.unknownError')
@@ -252,7 +252,7 @@ export default function UploadMerge() {
           <div className="p-1.5 rounded-lg bg-sky-500/20 text-sky-500 flex-shrink-0">
             <AlertCircle className="w-4 h-4" />
           </div>
-          <span className="font-medium">{t('upload.restoredHint', { count: restoredItems.length })}</span>
+          <span className="font-medium">{t('upload.restoredHint', { count: mergedItems.length })}</span>
         </div>
       )}
 
@@ -367,6 +367,7 @@ export default function UploadMerge() {
         <button
           disabled={busy}
           onClick={() => {
+            if (!confirm(t('upload.clearConfirm'))) return
             void clear()
             setMessage(null)
           }}

@@ -131,7 +131,7 @@
 /* 自托管字体 — 与 UI 同屏加载, font-display: swap 避免 FOIT */
 @font-face {
   font-family: 'Resource Han Rounded CN';
-  src: url('./fonts/han-rounded.woff2') format('woff2');
+  src: url('./assets/fonts/han-rounded.woff2') format('woff2');
   font-weight: 100 400;
   font-style: normal;
   font-display: swap;
@@ -139,7 +139,7 @@
 
 @font-face {
   font-family: 'Resource Han Rounded CN';
-  src: url('./fonts/han-rounded-bold.woff2') format('woff2');
+  src: url('./assets/fonts/han-rounded-bold.woff2') format('woff2');
   font-weight: 600 900;
   font-style: normal;
   font-display: swap;
@@ -147,7 +147,7 @@
 
 @font-face {
   font-family: 'Code New Roman';
-  src: url('./fonts/code-new-roman.woff2') format('woff2');
+  src: url('./assets/fonts/code-new-roman.woff2') format('woff2');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;

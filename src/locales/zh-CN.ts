@@ -24,6 +24,8 @@ export default {
   'common.yes': '有',
   'common.no': '无',
   'common.unknownError': '未知错误',
+  'common.undo': '撤销',
+  'common.close': '关闭',
 
   // Upload & Merge Page
   'upload.title': '上传合并',
@@ -41,21 +43,21 @@ export default {
   'upload.noRawItems': '当前没有活动中的原始导入会话',
   'upload.mergedItemsLabel': '去重后的书签数',
   'upload.restoredLabel': '从本地恢复的上次合并结果',
-  'upload.duplicatesLabel': '检测到的重复簇',
+  'upload.duplicatesLabel': '检测到的完全重复组',
   'upload.duplicatesUnavailable': '仅完整合并后可用',
 
   // Dashboard Page
   'dashboard.title': '仪表盘',
   'dashboard.deduplicated': '去重后',
-  'dashboard.duplicates': '重复',
+  'dashboard.duplicates': '完全重复',
   'dashboard.needsMerge': '当前导入会话已变更，仪表盘统计已失效',
   'dashboard.needsMergeHint': '请先回到"上传合并"重新执行合并去重',
   'dashboard.restoredWarning':
     '当前显示的是从本地数据库恢复的合并快照。基础统计可用，但重复簇相关信息不代表上一次完整导入会话的全部结果。',
   'dashboard.totalBookmarks': '书签总量',
-  'dashboard.duplicateCount': '重复数量',
+  'dashboard.duplicateCount': '完全重复数量',
   'dashboard.domainCount': '域名数',
-  'dashboard.duplicateRatio': '重复占比',
+  'dashboard.duplicateRatio': '完全重复占比',
   'dashboard.topDomains': 'Top 10 域名',
   'dashboard.byYear': '按年份新增',
   'dashboard.byCategory': '分类分布',
@@ -147,7 +149,7 @@ export default {
     '支持 Chrome、Firefox、Edge、Safari 等多浏览器书签文件一键导入，自动识别并合并重复文件夹结构。',
   'features.smartDedup.title': '智能去重',
   'features.smartDedup.desc':
-    'URL 规范化算法智能识别重复书签，自动处理 http/https、追踪参数、大小写等差异，保留最早添加的版本。',
+    'URL 规范化算法自动合并完全重复项并保留最早添加的版本；标题相似项只做提示，不会自动删除，确认后再处理。',
   'features.search.title': '全文搜索',
   'features.search.desc':
     '基于 MiniSearch 的高性能搜索引擎，支持标题、URL、文件夹路径全文检索，模糊匹配，毫秒级响应。',
@@ -181,9 +183,9 @@ export default {
   'howItWorks.step1.feature3': '拖拽上传',
   'howItWorks.step2.title': '合并去重',
   'howItWorks.step2.desc':
-    '系统自动合并重复文件夹、去除重复书签，并提供稳定的统计视图、搜索和重复项浏览能力。',
+    '系统自动合并重复文件夹并处理完全重复项；疑似重复由你确认，删除后仍可撤销。',
   'howItWorks.step2.description':
-    '系统自动合并重复文件夹、去除重复书签，并提供稳定的统计视图、搜索和重复项浏览能力。',
+    '系统自动合并重复文件夹并处理完全重复项；疑似重复由你确认，删除后仍可撤销。',
   'howItWorks.step2.f1': '自动去重',
   'howItWorks.step2.feature1': '自动去重',
   'howItWorks.step2.f2': '重复概览',
@@ -220,7 +222,7 @@ export default {
     '当前只保留可选的 AI 配置与连接测试能力。你可以自行提供 OpenAI 或 Claude API Key，配置仅保存在浏览器本地。工具本身不会代管密钥，也不会把你的书签上传到任何仓库控制的服务。',
   'faq.q4': '去重算法是如何工作的？',
   'faq.a4':
-    '我们使用智能 URL 规范化算法，在处理前会对 URL 进行标准化：统一协议（http/https）、小写主机名、去除追踪参数（如 utm_source）、排序查询参数等。这样可以识别出格式不同但实际指向同一页面的书签。',
+    '处理前会统一 URL 的协议、主机名大小写、追踪参数、末尾斜杠和查询参数顺序。规范化后完全相同的 URL 会自动合并并保留最早添加的版本；同一域名下标题相似的书签只会列为待确认建议，绝不会自动删除。',
   'faq.q5': '整理后的书签可以导回浏览器吗？',
   'faq.a5':
     '当然可以。我们导出的是标准书签 HTML 格式，可以在任何浏览器的书签管理器中导入。只需点击 "导出" 按钮生成整理后的 HTML 文件，然后在目标浏览器中选择 "导入书签" 即可。',
@@ -254,6 +256,11 @@ export default {
   'footer.links.feedback': '问题反馈',
   'footer.links.mitLicense': 'MIT 开源协议',
   'footer.links.documentation': '使用文档',
+
+  // Undo
+  'undo.message': '可撤销：{action}',
+  'undo.button': '撤销',
+  'undo.dismiss': '关闭',
 
   // Error Boundary
   'error.title': '出错了',
@@ -297,6 +304,9 @@ export default {
   'search.loadMore': '加载更多（{count} 条）',
   'search.exportedAs': '已导出为 {format} 格式',
   'search.clear': '清空搜索',
+  'search.delete': '删除此书签',
+  'search.deleteConfirm': '确定删除“{title}”吗？删除后可在页面顶部撤销。',
+  'search.deleteFailed': '删除失败，请重试',
 
   // Backup Page - Extended
   'backup.pageTitle': '数据备份与恢复',
@@ -329,6 +339,32 @@ export default {
   'duplicates.noDuplicatesHint': '请先在"上传合并"页面进行合并去重',
   'duplicates.cluster': '重复组 #{index} ({count} 个副本)',
   'duplicates.keep': '保留',
+  'duplicates.reviewTitle': '去重审阅',
+  'duplicates.reviewHint': '完全重复默认保留一条；疑似重复只做提示，不会自动删除。所有删除操作都可以撤销。',
+  'duplicates.exactCount': '{groups} 组完全重复 · 可删除 {items} 条',
+  'duplicates.similarCount': '{groups} 组疑似重复 · {items} 条待确认',
+  'duplicates.exactTitle': '完全重复',
+  'duplicates.exactHint': '规范化 URL 相同，默认保留最早添加的一条；你可以改用另一条或恢复整组。',
+  'duplicates.similarTitle': '疑似重复（标题相似）',
+  'duplicates.similarHint': '同一域名下标题高度相似，但 URL 不同。系统不会自动删除，请人工确认后处理。',
+  'duplicates.similarGroup': '相似组 #{index}',
+  'duplicates.similarScore': '相似度 {score}%',
+  'duplicates.setKeep': '改用此条',
+  'duplicates.restoreGroup': '恢复整组',
+  'duplicates.restoredGroup': '已恢复 {count} 条重复书签',
+  'duplicates.swappedKeep': '已切换保留项',
+  'duplicates.removedCount': '已删除 {count} 条书签',
+  'duplicates.similarRemoved': '已删除 {count} 条疑似重复书签',
+  'duplicates.similarDismissed': '已忽略一组疑似重复',
+  'duplicates.dismissGroup': '保留全部',
+  'duplicates.selectAll': '全选',
+  'duplicates.clearSelection': '取消选择',
+  'duplicates.deleteSelected': '删除选中 ({count})',
+  'duplicates.deleteConfirm': '确定删除选中的 {count} 条书签吗？删除后可在页面顶部撤销。',
+  'duplicates.noExact': '没有完全重复的 URL',
+  'duplicates.noSimilar': '没有需要人工确认的相似标题',
+  'duplicates.actionFailed': '操作失败: {error}',
+
 
   // Upload & Merge Page - Extended
   'upload.selectFiles': '选择导出的书签 HTML 文件，支持多选',
@@ -337,19 +373,21 @@ export default {
   'upload.bookmarkCountShort': '{count} 条书签',
   'upload.remove': '移除',
   'upload.restoredHint':
-    '已从本地数据库恢复上一次的合并结果，共 {count} 条书签。当前未保留原始导入文件和重复簇信息；如需重新整理，请重新导入书签文件并执行合并去重。',
+    '已从本地数据库恢复上一次的合并结果，共 {count} 条书签。再次导入文件时会与这些书签一起合并，不会覆盖本地数据。',
   'upload.needsMergeWarning':
     '当前导入会话已发生变更，旧的合并结果、搜索索引和重复簇已失效。请点击"合并去重"重新生成最新结果。',
   'upload.rawItems': '原始条目',
   'upload.mergedItems': '合并后',
-  'upload.duplicateItems': '重复总数',
+  'upload.duplicateItems': '完全重复',
   'upload.mergeButton': '合并去重',
   'upload.exportButton': '导出 {format}',
   'upload.clearButton': '清空',
+  'upload.clearConfirm': '确定清空本地数据库中的全部书签吗？此操作不可撤销。',
   'upload.invalidFiles': '未检测到有效的 HTML 书签文件。请确保文件扩展名为 .html 或 .htm',
   'upload.rejectedFiles': '（{names}{more} 格式不支持）',
-  'upload.importSuccess': '成功导入 {count} 个文件',
-  'upload.importPartialSuccess': '成功导入 {accepted} 个文件（跳过 {rejected} 个非 HTML 文件）',
+  'upload.importSuccess': '成功导入 {count} 个文件，共 {bookmarks} 条书签',
+  'upload.importPartialSuccess': '成功导入 {accepted} 个文件（跳过 {rejected} 个非 HTML 文件），共 {bookmarks} 条书签',
+  'upload.noBookmarksFound': '文件中没有解析到书签，请确认这是浏览器导出的书签 HTML 文件',
 
   // AI Page - Extended
   'ai.pageTitle': 'AI 可选配置',
@@ -363,7 +401,7 @@ export default {
   'error.refreshPage': '刷新页面',
 
   // Dashboard - Extended
-  'dashboard.chart.pieDescription': '去重后 {total} 条，重复 {duplicates} 条',
+  'dashboard.chart.pieDescription': '去重后 {total} 条，完全重复 {duplicates} 条',
   'dashboard.chart.barDescription': 'Top 10 域名: {domains}',
   'dashboard.chart.lineDescription': '按年份新增: {years}',
   'dashboard.folderLabel': '目录: {path}',

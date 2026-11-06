@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate, NavLink, Link, useLocation } from 'react-router-dom'
-import { useEffect, Suspense, lazy } from 'react'
-import { AlertCircle, BookMarked } from 'lucide-react'
+import { useEffect, Suspense, lazy, useState } from 'react'
+import { AlertCircle, BookMarked, RotateCcw, X } from 'lucide-react'
 import useBookmarksStore from '@/store/useBookmarksStore'
 import {
   usePreferencesStore,
@@ -31,7 +31,8 @@ const appLinks = [
 ]
 
 function AppHeader() {
-  const { needsMerge } = useBookmarksStore()
+  const { needsMerge, duplicates, similarGroups } = useBookmarksStore()
+  const pendingReviewCount = Object.keys(duplicates).length + similarGroups.length
   usePreferencesStore((state) => state.language)
 
   return (
@@ -66,7 +67,14 @@ function AppHeader() {
                     }`
                   }
                 >
-                  {t(item.labelKey)}
+                  <span className="flex items-center gap-1.5">
+                    {t(item.labelKey)}
+                    {item.to === '/app/duplicates' && pendingReviewCount > 0 && (
+                      <span className="inline-flex min-w-4 h-4 items-center justify-center rounded-full bg-amber-500 px-1 text-[10px] font-bold leading-none text-white">
+                        {pendingReviewCount}
+                      </span>
+                    )}
+                  </span>
                 </NavLink>
               ))}
             </nav>
@@ -104,6 +112,55 @@ function AppHeader() {
   )
 }
 
+function UndoBanner() {
+  const lastAction = useBookmarksStore((state) => state.lastAction)
+  const undo = useBookmarksStore((state) => state.undo)
+  const dismissUndo = useBookmarksStore((state) => state.dismissUndo)
+  const [undoing, setUndoing] = useState(false)
+
+  if (!lastAction) return null
+
+  async function handleUndo() {
+    setUndoing(true)
+    try {
+      await undo()
+    } catch (error) {
+      console.error('Failed to undo bookmark action:', error)
+    } finally {
+      setUndoing(false)
+    }
+  }
+
+  return (
+    <div className="sticky top-16 z-40 border-b border-sky-500/25 bg-sky-500/10 backdrop-blur-md text-sky-700 dark:text-sky-200 shadow-subtle">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-2.5 text-xs sm:text-sm">
+        <div className="flex items-center gap-2 min-w-0">
+          <RotateCcw className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+          <span className="font-medium truncate">{t('undo.message', { action: lastAction.label })}</span>
+        </div>
+        <div className="flex items-center gap-1.5 flex-shrink-0">
+          <button
+            type="button"
+            disabled={undoing}
+            onClick={() => void handleUndo()}
+            className="rounded-lg bg-sky-600 px-3 py-1.5 font-semibold text-white transition hover:bg-sky-500 disabled:opacity-50"
+          >
+            {t('undo.button')}
+          </button>
+          <button
+            type="button"
+            onClick={dismissUndo}
+            className="rounded-lg p-1.5 text-sky-700/80 transition hover:bg-sky-500/15 hover:text-sky-700 dark:text-sky-200/80 dark:hover:text-sky-100"
+            aria-label={t('undo.dismiss')}
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function AppContent() {
   const { loadFromDB } = useBookmarksStore()
 
@@ -115,6 +172,7 @@ function AppContent() {
     <div className="relative min-h-screen bg-background">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-gradient-to-b from-sky-500/[0.04] via-indigo-500/[0.02] to-transparent dark:from-sky-500/[0.035]" />
       <AppHeader />
+      <UndoBanner />
       <main className="relative mx-auto max-w-6xl px-4 py-8">
         <LazyErrorBoundary>
           <Suspense
@@ -149,6 +207,17 @@ function AppContent() {
   )
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+  }, [pathname])
+
+  return null
+}
+
 function LegacyRedirectHandler() {
   const location = useLocation()
 
@@ -173,6 +242,7 @@ export default function App() {
 
   return (
     <div key={language} className="min-h-screen bg-background text-foreground">
+      <ScrollToTop />
       <LegacyRedirectHandler />
       <Routes>
         <Route

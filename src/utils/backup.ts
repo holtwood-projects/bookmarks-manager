@@ -97,24 +97,27 @@ export async function restoreFromBackup(
   }
 
   try {
-    if (strategy === 'replace') {
-      await db.bookmarks.clear()
-      await db.aiConfig.clear()
-    }
-
-    if (backup.bookmarks.length > 0) {
-      if (strategy === 'merge') {
-        await db.bookmarks.bulkPut(backup.bookmarks)
-      } else {
-        await db.bookmarks.bulkAdd(backup.bookmarks)
+    await db.transaction('rw', db.bookmarks, db.aiConfig, async () => {
+      if (strategy === 'replace') {
+        await db.bookmarks.clear()
+        await db.aiConfig.clear()
       }
-      stats.bookmarksRestored = backup.bookmarks.length
-    }
 
-    if (backup.aiConfig) {
-      await db.aiConfig.put(backup.aiConfig)
-      stats.aiConfigRestored = true
-    }
+      if (backup.bookmarks.length > 0) {
+        if (strategy === 'merge') {
+          await db.bookmarks.bulkPut(backup.bookmarks)
+        } else {
+          await db.bookmarks.bulkAdd(backup.bookmarks)
+        }
+      }
+
+      if (backup.aiConfig) {
+        await db.aiConfig.put(backup.aiConfig)
+      }
+    })
+
+    stats.bookmarksRestored = backup.bookmarks.length
+    stats.aiConfigRestored = Boolean(backup.aiConfig)
 
     return { success: true, stats }
   } catch (error) {

@@ -4,6 +4,7 @@
  */
 
 import type { Bookmark } from '@/utils/bookmarkParser'
+import type { SimilarGroup } from '@/utils/bookmarkProcessing'
 import { processBookmarks } from '@/utils/bookmarkProcessing'
 
 // Worker message types
@@ -15,6 +16,7 @@ export type WorkerResponse =
       payload: {
         merged: Bookmark[]
         groups: Record<string, Bookmark[]>
+        similarGroups: SimilarGroup[]
         total: number
         duplicates: number
         byDomain: Record<string, number>
@@ -45,6 +47,7 @@ function mergeBookmarks(
     payload: {
       merged: result.merged,
       groups: result.duplicates,
+      similarGroups: result.similarGroups,
       total: result.stats.total,
       duplicates: result.stats.duplicates,
       byDomain: result.stats.byDomain,

@@ -43,10 +43,18 @@ Object.defineProperty(window, 'localStorage', {
 
 const loadFromDB = vi.hoisted(() => vi.fn().mockResolvedValue(undefined))
 const useBookmarksStoreMock = vi.hoisted(() =>
-  vi.fn(() => ({
-    needsMerge: false,
-    loadFromDB
-  }))
+  vi.fn((selector?: (state: Record<string, unknown>) => unknown) => {
+    const state = {
+      needsMerge: false,
+      duplicates: {},
+      similarGroups: [],
+      loadFromDB,
+      lastAction: null,
+      undo: vi.fn(),
+      dismissUndo: vi.fn()
+    }
+    return typeof selector === 'function' ? selector(state) : state
+  })
 )
 
 vi.mock('@/store/useBookmarksStore', () => ({

@@ -33,10 +33,11 @@ class SearchIndex {
     this.index.addAll(bookmarks)
   }
 
-  search(query: string, limit = 50): SearchResultItem[] {
+  search(query: string, limit = Number.POSITIVE_INFINITY): SearchResultItem[] {
     if (!this.index || !query.trim()) return []
     const results = this.index.search(query)
-    return results.slice(0, limit).map((r) => ({
+    const limited = Number.isFinite(limit) ? results.slice(0, limit) : results
+    return limited.map((r) => ({
       id: r.id as string,
       score: r.score,
       title: r.title as string | undefined,
@@ -61,7 +62,7 @@ export function createSearchIndex(bookmarks: Bookmark[]): void {
   searchIndex.create(bookmarks)
 }
 
-export function search(query: string, limit = 50): SearchResultItem[] {
+export function search(query: string, limit = Number.POSITIVE_INFINITY): SearchResultItem[] {
   return searchIndex.search(query, limit)
 }
 

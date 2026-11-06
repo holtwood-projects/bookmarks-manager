@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-生成压缩字体到 public/fonts/。
+生成压缩字体到 src/assets/fonts/。
 
 字体来源(均为 SIL OFL 1.1, 可自由再分发/嵌入/修改):
 - Resource Han Rounded CN: Windows 侧 C:\\Data\\Filen\\数据备份\\字体常用\\ResourceHanRoundedCN
@@ -12,7 +12,7 @@
 - 英文: Code New Roman 保留全部可打印 ASCII + Latin-1, 转 WOFF2 (337KB → ~14KB)。
 
 用法:
-  python3 scripts/fonts-subset/build-fonts.py [--src-dir ~/.local/share/fonts] [--out-dir public/fonts]
+  python3 scripts/fonts-subset/build-fonts.py [--src-dir ~/.local/share/fonts] [--out-dir src/assets/fonts]
 依赖: fonttools (pip install fonttools brotli)
 """
 import argparse
@@ -79,7 +79,7 @@ def subset(src: str, out: str, text: str) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument('--src-dir', default=os.path.expanduser('~/.local/share/fonts'))
-    ap.add_argument('--out-dir', default=os.path.join(os.path.dirname(__file__), '..', '..', 'public', 'fonts'))
+    ap.add_argument('--out-dir', default=os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'assets', 'fonts'))
     args = ap.parse_args()
 
     out_dir = os.path.abspath(args.out_dir)
