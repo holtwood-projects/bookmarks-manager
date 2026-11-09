@@ -15,6 +15,8 @@
 
 ### Changed
 
+- CI 增加 `pull_request` 触发（部署仍只在 push main 执行），PR 阶段即可跑类型检查、lint 与测试
+- `validate` 改用 `test:coverage`，使 `vite.config.ts` 中已有的覆盖率阈值真正生效
 - 取消归档状态，恢复主动维护
 - 修复在线演示 URL（lessup.github.io -> build-workbench 仓库）
 - README 重写，聚焦隐私优先定位，更新功能概览
